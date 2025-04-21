@@ -22,12 +22,14 @@ document.getElementById("select-time").addEventListener("input", (e) => {
     } else {
       document.getElementById("custom-minutes").classList.remove("block");
       document.getElementById("custom-minutes").classList.add("hidden");
-      minutesTimer= Number(e.target.value)
+      minutesTimer = Number(e.target.value);
       setShowTime();
     }
   }
+  
 });
 startBtn.setAttribute("isPaused", "true");
+
 startBtn.addEventListener("click", (e) => {
   if (!isPaused) {
     if (e.target.getAttribute("isPaused") === "false") {
@@ -56,14 +58,18 @@ document.getElementById("cancel-timer").addEventListener("click", () => {
   document.getElementById("countdown").innerHTML = "00:00:00";
   isAllowToClickStart = true;
   startCountDown = false;
+  isPaused = false;
+  startBtn.setAttribute("isPaused", "true");
   resetButtonPlay();
 });
 
+
 document.getElementById("form-custom-min").addEventListener("submit", (e) => {
   e.preventDefault();
+
   if (!startCountDown) {
     startBtn.removeAttribute("disabled");
-    
+
     minutesTimer = Number(e.target.customMin.value);
     setShowTime();
   }
@@ -89,13 +95,15 @@ document.getElementById("control-audio").addEventListener("click", (e) => {
 });
 
 const startTimer = () => {
-  if (minutesTimer <= 0) return;
-  const targetDate = new Date(new Date().getTime() + minutesTimer * 60000);
+
   startCountDown = true;
+  const targetDate = new Date(new Date().getTime() + minutesTimer * 60000);
+  
   if (isAllowToClickStart) {
     countdownInterval = setInterval(() => {
       const now = new Date().getTime();
       const timeLeft = targetDate - now;
+
       getCurrentTime = timeLeft / 60000;
       document.getElementById("countdown").innerHTML = patternTime(timeLeft);
 
